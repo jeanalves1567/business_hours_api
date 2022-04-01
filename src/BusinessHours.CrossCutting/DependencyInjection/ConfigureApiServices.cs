@@ -10,6 +10,7 @@ namespace BusinessHours.CrossCutting.DependencyInjection
         {
             services.AddScoped<IBusinessHoursRulesServices, BusinessHoursRulesServices>();
             services.AddScoped<IDepartmentsServices, DepartmentsServices>();
+            services.AddScoped<IHolidaysServices, HolidaysServices>();
         }
     }
 }
