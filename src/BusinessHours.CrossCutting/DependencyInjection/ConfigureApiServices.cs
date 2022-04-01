@@ -9,6 +9,7 @@ namespace BusinessHours.CrossCutting.DependencyInjection
         public static void RegisterApiServices(this IServiceCollection services)
         {
             services.AddScoped<IBusinessHoursRulesServices, BusinessHoursRulesServices>();
+            services.AddScoped<IDepartmentsServices, DepartmentsServices>();
         }
     }
 }

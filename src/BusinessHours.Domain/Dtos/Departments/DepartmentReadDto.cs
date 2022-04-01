@@ -11,6 +11,6 @@ namespace BusinessHours.Domain.Dtos.Departments
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string RuleId { get; set; }
-        public BusinessHoursRuleReadDto Rule { get; set; }
+        public BusinessHoursRuleListDto Rule { get; set; }
     }
 }

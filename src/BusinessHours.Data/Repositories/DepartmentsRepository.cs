@@ -10,6 +10,11 @@ namespace BusinessHours.Data.Repositories
     {
         public DepartmentsRepository(AppDbContext context) : base(context) { }
 
+        public async Task<bool> ExternalIdExists(string externalId)
+        {
+            return await Context.Departments.AsNoTracking().AnyAsync(d => d.ExternalId == externalId);
+        }
+
         public async Task<Department> GetDepartment(string departmentId)
         {
             return await Context.Departments.AsNoTracking().Include(d => d.Rule).Include(d => d.Rule.WorkHours).FirstOrDefaultAsync(d => d.Id == departmentId);

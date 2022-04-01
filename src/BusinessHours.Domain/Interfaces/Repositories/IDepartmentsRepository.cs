@@ -6,5 +6,6 @@ namespace BusinessHours.Domain.Interfaces.Repositories
     public interface IDepartmentsRepository : IRepository<Department>
     {
         Task<Department> GetDepartment(string departmentId);
+        Task<bool> ExternalIdExists(string externalId);
     }
 }
