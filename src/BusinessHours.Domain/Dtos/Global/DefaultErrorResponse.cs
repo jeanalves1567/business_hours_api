@@ -1,4 +1,4 @@
-namespace BusinessHours.Domain.Dtos
+namespace BusinessHours.Domain.Dtos.Global
 {
     public class DefaultErrorResponse
     {

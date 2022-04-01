@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BusinessHours.Domain.Dtos;
+using BusinessHours.Domain.Dtos.Global;
 using BusinessHours.Domain.Dtos.Departments;
 using BusinessHours.Domain.Errors;
 using BusinessHours.Domain.Interfaces.Services;
