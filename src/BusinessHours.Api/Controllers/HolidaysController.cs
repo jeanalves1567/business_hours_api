@@ -149,5 +149,58 @@ namespace BusinessHours.Api.Controllers
                 return StatusCode(500, new DefaultErrorResponse(ex.Message));
             }
         }
+
+        [ProducesResponseType(typeof(object), 204)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
+        [HttpPost("{holidayId}/rule/{ruleId}")]
+        public async Task<ActionResult<HolidayReadDto>> AssignToRule(string holidayId, string ruleId)
+        {
+            try
+            {
+                await _services.AssignToRule(holidayId, ruleId);
+                return NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new DefaultErrorResponse(ex.Message));
+            }
+        }
+
+        [ProducesResponseType(typeof(object), 204)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
+        [HttpDelete("{holidayId}/rule/{ruleId}")]
+        public async Task<ActionResult<HolidayReadDto>> UnassignRule(string holidayId, string ruleId)
+        {
+            try
+            {
+                await _services.UnassignRule(holidayId, ruleId);
+                return NoContent();
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new DefaultErrorResponse(ex.Message));
+            }
+        }
+
     }
 }
