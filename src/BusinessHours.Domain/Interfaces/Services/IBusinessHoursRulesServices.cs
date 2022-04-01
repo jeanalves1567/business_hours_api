@@ -11,5 +11,7 @@ namespace BusinessHours.Domain.Interfaces.Services
         Task<RuleReadDto> CreateBusinessHoursRule(RuleCreateDto payload);
         Task<RuleReadDto> UpdateBusinessHoursRule(string ruleId, RuleUpdateDto payload);
         Task DeleteBusinessHoursRule(string ruleId);
+        Task AssignHoliday(string ruleId, string holidayId);
+        Task UnassignHoliday(string ruleId, string holidayId);
     }
 }

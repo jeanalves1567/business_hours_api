@@ -132,6 +132,7 @@ namespace BusinessHours.Api.Controllers
 
         [ProducesResponseType(typeof(object), 204)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpDelete("{ruleId}")]
         public async Task<ActionResult> DeleteRule(string ruleId)
@@ -147,11 +148,73 @@ namespace BusinessHours.Api.Controllers
             }
             catch (ArgumentNullException ex)
             {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
+                return NotFound(new DefaultErrorResponse(ex.Message));
             }
             catch (KeyNotFoundException ex)
             {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new DefaultErrorResponse(ex.Message));
+            }
+        }
+
+        [ProducesResponseType(typeof(object), 204)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
+        [HttpPost("{ruleId}/holiday/{holidayId}")]
+        public async Task<ActionResult> AssignHoliday(string ruleId, string holidayId)
+        {
+            try
+            {
+                await _services.AssignHoliday(ruleId, holidayId);
+                return NoContent();
+            }
+            catch (BadRequestException ex)
+            {
                 return BadRequest(new DefaultErrorResponse(ex.Message));
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new DefaultErrorResponse(ex.Message));
+            }
+        }
+
+        [ProducesResponseType(typeof(object), 204)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
+        [HttpDelete("{ruleId}/holiday/{holidayId}")]
+        public async Task<ActionResult> UnassignHoliday(string ruleId, string holidayId)
+        {
+            try
+            {
+                await _services.UnassignHoliday(ruleId, holidayId);
+                return NoContent();
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(new DefaultErrorResponse(ex.Message));
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
             }
             catch (Exception ex)
             {

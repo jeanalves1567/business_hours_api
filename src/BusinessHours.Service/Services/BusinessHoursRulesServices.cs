@@ -15,12 +15,23 @@ namespace BusinessHours.Service.Services
     public class BusinessHoursRulesServices : IBusinessHoursRulesServices
     {
         private readonly IRulesRepository _rulesRepository;
+        private readonly IRulesHolidaysRepository _rulesHolidaysRepository;
+        private readonly IHolidaysRepository _holidaysRepository;
         private readonly IDepartmentsRepository _departmentsRepository;
         private readonly IMapper _mapper;
 
-        public BusinessHoursRulesServices(IRulesRepository rulesRepository, IDepartmentsRepository departmentsRepository, IMapper mapper)
+        public BusinessHoursRulesServices
+        (
+            IRulesRepository rulesRepository,
+            IRulesHolidaysRepository rulesHolidaysRepository,
+            IHolidaysRepository holidaysRepository,
+            IDepartmentsRepository departmentsRepository,
+            IMapper mapper
+        )
         {
             _rulesRepository = rulesRepository;
+            _rulesHolidaysRepository = rulesHolidaysRepository;
+            _holidaysRepository = holidaysRepository;
             _departmentsRepository = departmentsRepository;
             _mapper = mapper;
         }
@@ -134,5 +145,35 @@ namespace BusinessHours.Service.Services
             await _rulesRepository.DeleteAsync(ruleId);
         }
 
+        public async Task AssignHoliday(string ruleId, string holidayId)
+        {
+            if (string.IsNullOrEmpty(ruleId)) throw new ArgumentNullException("ruleId");
+            if (string.IsNullOrEmpty(holidayId)) throw new ArgumentNullException("holidayId");
+            var rule = await _rulesRepository.SelectAsync(ruleId);
+            if (rule == null) throw new KeyNotFoundException();
+            var holiday = await _holidaysRepository.SelectAsync(holidayId);
+            if (holiday == null) throw new KeyNotFoundException();
+            var associationExists = await _rulesHolidaysRepository.ExistsAsync(ruleId, holidayId);
+            if (associationExists) return;
+            var ruleHoliday = new RuleHoliday
+            {
+                Holiday = holiday,
+                Rule = rule,
+            };
+            var result = await _rulesHolidaysRepository.InsertAsync(ruleHoliday);
+        }
+
+        public async Task UnassignHoliday(string ruleId, string holidayId)
+        {
+            if (string.IsNullOrEmpty(ruleId)) throw new ArgumentNullException("ruleId");
+            if (string.IsNullOrEmpty(holidayId)) throw new ArgumentNullException("holidayId");
+            var rule = await _rulesRepository.SelectAsync(ruleId);
+            if (rule == null) throw new KeyNotFoundException();
+            var holiday = await _holidaysRepository.SelectAsync(holidayId);
+            if (holiday == null) throw new KeyNotFoundException();
+            var associationExists = await _rulesHolidaysRepository.ExistsAsync(ruleId, holidayId);
+            if (!associationExists) return;
+            await _rulesHolidaysRepository.DeleteAsync(ruleId, holidayId);
+        }
     }
 }
