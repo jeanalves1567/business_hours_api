@@ -12,6 +12,7 @@ namespace BusinessHours.CrossCutting.DependencyInjection
             {
                 cfg.AddProfile(new BusinessHoursRulesProfile());
                 cfg.AddProfile(new DepartmentsProfile());
+                cfg.AddProfile(new HolidaysProfile());
             });
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
