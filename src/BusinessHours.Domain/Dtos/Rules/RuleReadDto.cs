@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BusinessHours.Domain.Dtos.Departments;
+using BusinessHours.Domain.Dtos.Holidays;
 
 namespace BusinessHours.Domain.Dtos.Rules
 {
@@ -13,5 +14,6 @@ namespace BusinessHours.Domain.Dtos.Rules
         public DateTime? UpdatedAt { get; set; }
         public IEnumerable<WorkHoursReadDto> WorkHours { get; set; }
         public IEnumerable<DepartmentListDto> Departments { get; set; }
+        public IEnumerable<HolidayListDto> Holidays { get; set; }
     }
 }
