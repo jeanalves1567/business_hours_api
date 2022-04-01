@@ -11,5 +11,6 @@ namespace BusinessHours.Domain.Interfaces.Services
         Task<DepartmentReadDto> CreateDepartment(DepartmentCreateDto payload);
         Task<DepartmentReadDto> UpdateDepartment(string departmentId, DepartmentUpdateDto payload);
         Task DeleteDepartment(string departmentId);
+        Task<DepartmentMomentStatus> CheckDepartmentWorkingHours(string departmentId);
     }
 }

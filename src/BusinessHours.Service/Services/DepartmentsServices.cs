@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BusinessHours.Domain.Dtos.Departments;
+using BusinessHours.Domain.Dtos.Rules;
 using BusinessHours.Domain.Dtos.Validators;
 using BusinessHours.Domain.Entities;
 using BusinessHours.Domain.Errors;
@@ -85,5 +87,32 @@ namespace BusinessHours.Service.Services
             await _departmentsRepository.DeleteAsync(departmentId);
         }
 
+        public async Task<DepartmentMomentStatus> CheckDepartmentWorkingHours(string departmentId)
+        {
+            if (string.IsNullOrEmpty(departmentId)) throw new ArgumentNullException("departmentId");
+            var department = await _departmentsRepository.GetDepartment(departmentId);
+            if (department == null) throw new KeyNotFoundException();
+            var result = new DepartmentMomentStatus();
+            result.Rule = _mapper.Map<RuleReadDto>(department.Rule);
+            result.AtWorkingHours = false;
+
+            var utcNow = DateTime.UtcNow;
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById(department.Rule.Timezone);
+            var now = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timezone);
+
+            // TODO
+            // Check if holiday
+
+            // Check if the date is open
+            var currentWeekDay = department.Rule.WorkHours.FirstOrDefault(d => d.Day.Equals(now.DayOfWeek));
+            if (currentWeekDay == null || !currentWeekDay.Open) return result;
+
+            // Check if the time is between the range defined for the day
+            var start = DateTime.Parse(now.ToString("yyyy-MM-dd ") + currentWeekDay.Start + ":00");
+            var end = DateTime.Parse(now.ToString("yyyy-MM-dd ") + currentWeekDay.Finish + ":00").AddMinutes(1);
+            if (now >= start && now < end) result.AtWorkingHours = true;
+
+            return result;
+        }
     }
 }
