@@ -10,9 +10,10 @@ namespace BusinessHours.Data.Seeds
 {
     public static class PrepDb
     {
-        public static void SeedData(AppDbContext context, IConfiguration configuration, bool isProduction = false)
+        public static void SeedData(AppDbContext context, IConfiguration configuration)
         {
-            if (isProduction)
+            bool runMigrations = Convert.ToBoolean(configuration["DbRunMigrations"]);
+            if (runMigrations)
             {
                 Console.WriteLine("--> Attempting to apply migrations...");
                 try

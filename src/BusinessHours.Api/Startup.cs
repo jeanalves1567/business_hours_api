@@ -55,8 +55,7 @@ namespace BusinessHours.Api
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                // PrepDb.SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), Configuration, env.IsProduction());
-                PrepDb.SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), Configuration, true);
+                PrepDb.SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), Configuration);
             }
         }
     }
