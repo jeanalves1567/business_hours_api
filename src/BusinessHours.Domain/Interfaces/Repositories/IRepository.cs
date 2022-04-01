@@ -10,9 +10,9 @@ namespace BusinessHours.Domain.Interfaces.Repositories
     {
         Task<TEntity> InsertAsync(TEntity data);
         Task<TEntity> UpdateAsync(TEntity data);
-        Task DeleteAsync(Guid id);
-        Task<bool> ExistsAsync(Guid id);
-        Task<TEntity> SelectAsync(Guid id);
+        Task DeleteAsync(string id);
+        Task<bool> ExistsAsync(string id);
+        Task<TEntity> SelectAsync(string id);
         Task<IEnumerable<TEntity>> SelectAsync();
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         Task<bool> SaveChangesAsync();

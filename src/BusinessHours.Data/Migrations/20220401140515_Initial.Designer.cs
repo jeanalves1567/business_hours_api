@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessHours.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220401131741_Initial")]
+    [Migration("20220401140515_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,9 +23,8 @@ namespace BusinessHours.Data.Migrations
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.BusinessHoursRule", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -50,8 +49,8 @@ namespace BusinessHours.Data.Migrations
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.WorkHours", b =>
                 {
-                    b.Property<Guid>("RuleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RuleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Day")
                         .HasColumnType("nvarchar(450)");

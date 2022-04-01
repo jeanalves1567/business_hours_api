@@ -69,7 +69,7 @@ namespace BusinessHours.Api.Controllers
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpGet("{ruleId}")]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> GetRule(Guid ruleId)
+        public async Task<ActionResult<BusinessHoursRuleReadDto>> GetRule(string ruleId)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace BusinessHours.Api.Controllers
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpPut("{ruleId}")]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> UpdateRule(Guid ruleId, BusinessHoursRuleUpdateDto payload)
+        public async Task<ActionResult<BusinessHoursRuleReadDto>> UpdateRule(string ruleId, BusinessHoursRuleUpdateDto payload)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace BusinessHours.Api.Controllers
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpDelete("{ruleId}")]
-        public async Task<ActionResult> DeleteRule(Guid ruleId)
+        public async Task<ActionResult> DeleteRule(string ruleId)
         {
             try
             {

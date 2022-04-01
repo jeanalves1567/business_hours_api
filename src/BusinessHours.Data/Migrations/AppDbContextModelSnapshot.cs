@@ -21,9 +21,8 @@ namespace BusinessHours.Data.Migrations
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.BusinessHoursRule", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -48,8 +47,8 @@ namespace BusinessHours.Data.Migrations
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.WorkHours", b =>
                 {
-                    b.Property<Guid>("RuleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("RuleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Day")
                         .HasColumnType("nvarchar(450)");

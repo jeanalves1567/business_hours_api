@@ -6,7 +6,7 @@ namespace BusinessHours.Domain.Entities
     public abstract class BaseEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         private DateTime? _createdAt;
         public DateTime? CreatedAt
@@ -19,10 +19,10 @@ namespace BusinessHours.Domain.Entities
 
         public BaseEntity()
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
         }
 
-        public BaseEntity(Guid id)
+        public BaseEntity(string id)
         {
             Id = id;
         }

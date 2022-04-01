@@ -4,7 +4,7 @@ namespace BusinessHours.Domain.Entities
 {
     public class WorkHours
     {
-        public Guid RuleId { get; set; }
+        public string RuleId { get; set; }
 
         public DayOfWeek Day { get; set; }
         public bool Open { get; set; }

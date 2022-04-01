@@ -11,7 +11,7 @@ namespace BusinessHours.Data.Migrations
                 name: "Rules",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     Timezone = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -26,7 +26,7 @@ namespace BusinessHours.Data.Migrations
                 name: "WorkHours",
                 columns: table => new
                 {
-                    RuleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RuleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Day = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Open = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Start = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),

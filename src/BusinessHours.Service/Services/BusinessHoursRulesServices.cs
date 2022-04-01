@@ -28,9 +28,9 @@ namespace BusinessHours.Service.Services
             return _mapper.Map<IEnumerable<BusinessHoursRuleListDto>>(rules);
         }
 
-        public async Task<BusinessHoursRuleReadDto> GetBusinessHoursRule(Guid ruleId)
+        public async Task<BusinessHoursRuleReadDto> GetBusinessHoursRule(string ruleId)
         {
-            if (ruleId == Guid.Empty)
+            if (string.IsNullOrEmpty(ruleId))
                 throw new ArgumentNullException(nameof(ruleId));
 
             var rule = await _rulesRepository.GetRule(ruleId);
@@ -72,7 +72,7 @@ namespace BusinessHours.Service.Services
             return _mapper.Map<BusinessHoursRuleReadDto>(result);
         }
 
-        public async Task<BusinessHoursRuleReadDto> UpdateBusinessHoursRule(Guid ruleId, BusinessHoursRuleUpdateDto payload)
+        public async Task<BusinessHoursRuleReadDto> UpdateBusinessHoursRule(string ruleId, BusinessHoursRuleUpdateDto payload)
         {
             payload.Validate();
             var rule = await _rulesRepository.GetRule(ruleId);
@@ -110,9 +110,9 @@ namespace BusinessHours.Service.Services
             return _mapper.Map<BusinessHoursRuleReadDto>(result);
         }
 
-        public async Task DeleteBusinessHoursRule(Guid ruleId)
+        public async Task DeleteBusinessHoursRule(string ruleId)
         {
-            if (ruleId == Guid.Empty)
+            if (string.IsNullOrEmpty(ruleId))
                 throw new ArgumentNullException(nameof(ruleId));
 
             var ruleExists = await _rulesRepository.ExistsAsync(ruleId);

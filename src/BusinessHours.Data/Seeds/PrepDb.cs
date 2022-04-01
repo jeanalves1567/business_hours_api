@@ -28,7 +28,7 @@ namespace BusinessHours.Data.Seeds
 
             if (!context.Rules.Any())
             {
-                var defaultRuleId = Guid.Parse(configuration["TenantId"]);
+                var defaultRuleId = "default";
                 var defaultRule = new BusinessHoursRule
                 {
                     Id = defaultRuleId,

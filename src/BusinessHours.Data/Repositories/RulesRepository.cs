@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using BusinessHours.Data.Contexts;
 using BusinessHours.Domain.Entities;
@@ -12,7 +10,7 @@ namespace BusinessHours.Data.Repositories
     {
         public RulesRepository(AppDbContext context) : base(context) { }
 
-        public async Task<BusinessHoursRule> GetRule(Guid id)
+        public async Task<BusinessHoursRule> GetRule(string id)
         {
             return await Context.Rules.AsNoTracking().Include(r => r.WorkHours).FirstOrDefaultAsync(r => r.Id == id);
         }

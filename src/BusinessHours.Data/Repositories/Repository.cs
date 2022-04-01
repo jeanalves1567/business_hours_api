@@ -26,7 +26,7 @@ namespace BusinessHours.Data.Repositories
             return await DbSet.ToListAsync();
         }
 
-        public virtual async Task<TEntity> SelectAsync(Guid id)
+        public virtual async Task<TEntity> SelectAsync(string id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -36,15 +36,15 @@ namespace BusinessHours.Data.Repositories
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
-        public async Task<bool> ExistsAsync(Guid id)
+        public async Task<bool> ExistsAsync(string id)
         {
             return await DbSet.AsNoTracking().AnyAsync(i => i.Id.Equals(id));
         }
 
         public virtual async Task<TEntity> InsertAsync(TEntity data)
         {
-            if (data.Id == Guid.Empty)
-                data.Id = Guid.NewGuid();
+            if (data.Id == string.Empty)
+                data.Id = Guid.NewGuid().ToString();
             data.CreatedAt = DateTime.UtcNow;
             DbSet.Add(data);
             await SaveChangesAsync();
@@ -59,7 +59,7 @@ namespace BusinessHours.Data.Repositories
             return data;
         }
 
-        public virtual async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(string id)
         {
             DbSet.Remove(new TEntity { Id = id });
             await SaveChangesAsync();
