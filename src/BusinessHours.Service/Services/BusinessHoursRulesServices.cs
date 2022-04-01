@@ -6,6 +6,7 @@ using AutoMapper;
 using BusinessHours.Domain.Dtos;
 using BusinessHours.Domain.Dtos.Validators;
 using BusinessHours.Domain.Entities;
+using BusinessHours.Domain.Errors;
 using BusinessHours.Domain.Interfaces.Repositories;
 using BusinessHours.Domain.Interfaces.Services;
 
@@ -114,6 +115,9 @@ namespace BusinessHours.Service.Services
         {
             if (string.IsNullOrEmpty(ruleId))
                 throw new ArgumentNullException(nameof(ruleId));
+
+            if (ruleId == "default")
+                throw new BadRequestException("The default rule can not be removed");
 
             var ruleExists = await _rulesRepository.ExistsAsync(ruleId);
             if (!ruleExists)

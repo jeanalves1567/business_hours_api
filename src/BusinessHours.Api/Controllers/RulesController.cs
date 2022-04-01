@@ -140,6 +140,10 @@ namespace BusinessHours.Api.Controllers
                 await _services.DeleteBusinessHoursRule(ruleId);
                 return NoContent();
             }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(new DefaultErrorResponse(ex.Message));
+            }
             catch (ArgumentNullException ex)
             {
                 return BadRequest(new DefaultErrorResponse(ex.Message));
