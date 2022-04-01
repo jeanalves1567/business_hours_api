@@ -17,7 +17,12 @@ namespace BusinessHours.Data.Repositories
 
         public async Task<Department> GetDepartment(string departmentId)
         {
-            return await Context.Departments.AsNoTracking().Include(d => d.Rule).Include(d => d.Rule.WorkHours).FirstOrDefaultAsync(d => d.Id == departmentId);
+            return await Context.Departments.AsNoTracking()
+                .Include(d => d.Rule)
+                .Include(d => d.Rule.WorkHours)
+                .Include(d => d.Rule.Holidays)
+                .ThenInclude(rh => rh.Holiday)
+                .FirstOrDefaultAsync(d => d.Id == departmentId);
         }
     }
 }

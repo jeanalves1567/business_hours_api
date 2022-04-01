@@ -99,13 +99,29 @@ namespace BusinessHours.Service.Services
             var utcNow = DateTime.UtcNow;
             var timezone = TimeZoneInfo.FindSystemTimeZoneById(department.Rule.Timezone);
             var now = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timezone);
-
-            // TODO
-            // Check if holiday
+            var year = now.Year;
+            var month = now.Month;
+            var day = now.Day;
 
             // Check if the date is open
             var currentWeekDay = department.Rule.WorkHours.FirstOrDefault(d => d.Day.Equals(now.DayOfWeek));
             if (currentWeekDay == null || !currentWeekDay.Open) return result;
+
+            // Check if holiday
+            if (department.Rule.Holidays.Count() > 0)
+            {
+                var holiday = department.Rule.Holidays
+                    .Where(rh => (rh.Holiday.Year == year || rh.Holiday.Year == null) && rh.Holiday.Month == month && rh.Holiday.Day == day)
+                    .Select(rh => rh.Holiday)
+                    .FirstOrDefault();
+                if (holiday != null)
+                {
+                    if (holiday.AllDay) return result;
+                    var holidayStart = DateTime.Parse($"{year}-{month}-{day} {holiday.Start}:00");
+                    var holidayEnd = DateTime.Parse($"{year}-{month}-{day} {holiday.Finish}:00").AddMinutes(1);
+                    if (now >= holidayStart && now < holidayEnd) return result;
+                }
+            }
 
             // Check if the time is between the range defined for the day
             var start = DateTime.Parse(now.ToString("yyyy-MM-dd ") + currentWeekDay.Start + ":00");
