@@ -15,6 +15,7 @@
             //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             // },
             "env": {
+                "DB_CONNECTION_STRING": "Server=acme.com,1433;Initial Catalog=BusinessHoursApi;User ID=sa;Password=pa55w0rd!;",
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
