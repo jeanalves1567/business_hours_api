@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BusinessHours.Domain.Dtos;
+using BusinessHours.Domain.Dtos.Departments;
 using BusinessHours.Domain.Errors;
 using BusinessHours.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,51 +11,44 @@ namespace BusinessHours.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RulesController : ControllerBase
+    public class DepartmentsController : ControllerBase
     {
-        private readonly IBusinessHoursRulesServices _services;
+        private readonly IDepartmentsServices _services;
 
-        public RulesController(IBusinessHoursRulesServices services)
+        public DepartmentsController(IDepartmentsServices services)
         {
             _services = services;
         }
 
-        [ProducesResponseType(typeof(IEnumerable<BusinessHoursRuleListDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<DepartmentListDto>), 200)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BusinessHoursRuleListDto>>> ListRules()
+        public async Task<ActionResult<IEnumerable<DepartmentListDto>>> ListDepartments()
         {
             try
             {
-                var result = await _services.ListBusinessHoursRules();
+                var result = await _services.ListDepartments();
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, new DefaultErrorResponse(ex.Message));
             }
         }
 
-        [ProducesResponseType(typeof(BusinessHoursRuleReadDto), 201)]
+        [ProducesResponseType(typeof(DepartmentReadDto), 201)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpPost]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> CreateRule(BusinessHoursRuleCreateDto payload)
+        public async Task<ActionResult<DepartmentReadDto>> CreateDepartment(DepartmentCreateDto payload)
         {
             try
             {
-                var result = await _services.CreateBusinessHoursRule(payload);
-                return CreatedAtAction(nameof(GetRule), new { ruleId = result.Id }, result);
+                var result = await _services.CreateDepartment(payload);
+                return CreatedAtAction(nameof(GetDepartment), new { departmentId = result.Id }, result);
             }
             catch (BadRequestException ex)
-            {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
-            }
-            catch (TimeZoneNotFoundException ex)
-            {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
-            }
-            catch (InvalidTimeZoneException ex)
             {
                 return BadRequest(new DefaultErrorResponse(ex.Message));
             }
@@ -65,15 +59,15 @@ namespace BusinessHours.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(BusinessHoursRuleReadDto), 200)]
+        [ProducesResponseType(typeof(DepartmentReadDto), 200)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
-        [HttpGet("{ruleId}")]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> GetRule(string ruleId)
+        [HttpGet("{departmentId}")]
+        public async Task<ActionResult<DepartmentReadDto>> GetDepartment(string departmentId)
         {
             try
             {
-                var result = await _services.GetBusinessHoursRule(ruleId);
+                var result = await _services.GetDepartment(departmentId);
                 return Ok(result);
             }
             catch (ArgumentNullException ex)
@@ -91,34 +85,27 @@ namespace BusinessHours.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(BusinessHoursRuleReadDto), 200)]
+        [ProducesResponseType(typeof(DepartmentReadDto), 200)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
-        [HttpPut("{ruleId}")]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> UpdateRule(string ruleId, BusinessHoursRuleUpdateDto payload)
+        [HttpPut("{departmentId}")]
+        public async Task<ActionResult<DepartmentReadDto>> UpdateDepartment(string departmentId, DepartmentUpdateDto payload)
         {
             try
             {
-                var result = await _services.UpdateBusinessHoursRule(ruleId, payload);
+                var result = await _services.UpdateDepartment(departmentId, payload);
                 return Ok(result);
-            }
-            catch (BadRequestException ex)
-            {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
-            }
-            catch (TimeZoneNotFoundException ex)
-            {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
-            }
-            catch (InvalidTimeZoneException ex)
-            {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
             }
             catch (ArgumentNullException ex)
             {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
+                return NotFound(new DefaultErrorResponse(ex.Message));
             }
             catch (KeyNotFoundException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (BadRequestException ex)
             {
                 return BadRequest(new DefaultErrorResponse(ex.Message));
             }
@@ -130,27 +117,23 @@ namespace BusinessHours.Api.Controllers
         }
 
         [ProducesResponseType(typeof(object), 204)]
-        [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
-        [HttpDelete("{ruleId}")]
-        public async Task<ActionResult> DeleteRule(string ruleId)
+        [HttpDelete("{departmentId}")]
+        public async Task<ActionResult> DeleteDepartment(string departmentId)
         {
             try
             {
-                await _services.DeleteBusinessHoursRule(ruleId);
+                await _services.DeleteDepartment(departmentId);
                 return NoContent();
-            }
-            catch (BadRequestException ex)
-            {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
             }
             catch (ArgumentNullException ex)
             {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
+                return NotFound(new DefaultErrorResponse(ex.Message));
             }
             catch (KeyNotFoundException ex)
             {
-                return BadRequest(new DefaultErrorResponse(ex.Message));
+                return NotFound(new DefaultErrorResponse(ex.Message));
             }
             catch (Exception ex)
             {

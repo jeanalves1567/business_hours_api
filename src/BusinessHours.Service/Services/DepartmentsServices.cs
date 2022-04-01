@@ -69,9 +69,9 @@ namespace BusinessHours.Service.Services
             }
             if (!string.IsNullOrEmpty(payload.RuleId) && payload.RuleId != department.RuleId)
             {
-                var ruleExists = await _rulesRepository.ExistsAsync(payload.RuleId);
-                if (!ruleExists) throw new InvalidBodyParamException("ruleId");
-                department.RuleId = payload.RuleId;
+                var rule = await _rulesRepository.SelectAsync(payload.RuleId);
+                if (rule == null) throw new InvalidBodyParamException("ruleId");
+                department.Rule = rule;
             }
             var result = await _departmentsRepository.UpdateAsync(department);
             return _mapper.Map<DepartmentReadDto>(result);
