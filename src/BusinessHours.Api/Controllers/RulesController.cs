@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BusinessHours.Domain.Dtos;
 using BusinessHours.Domain.Dtos.Global;
+using BusinessHours.Domain.Dtos.Rules;
 using BusinessHours.Domain.Errors;
 using BusinessHours.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +20,9 @@ namespace BusinessHours.Api.Controllers
             _services = services;
         }
 
-        [ProducesResponseType(typeof(IEnumerable<BusinessHoursRuleListDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<RuleListDto>), 200)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BusinessHoursRuleListDto>>> ListRules()
+        public async Task<ActionResult<IEnumerable<RuleListDto>>> ListRules()
         {
             try
             {
@@ -36,11 +36,11 @@ namespace BusinessHours.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(BusinessHoursRuleReadDto), 201)]
+        [ProducesResponseType(typeof(RuleReadDto), 201)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpPost]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> CreateRule(BusinessHoursRuleCreateDto payload)
+        public async Task<ActionResult<RuleReadDto>> CreateRule(RuleCreateDto payload)
         {
             try
             {
@@ -66,11 +66,11 @@ namespace BusinessHours.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(BusinessHoursRuleReadDto), 200)]
+        [ProducesResponseType(typeof(RuleReadDto), 200)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpGet("{ruleId}")]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> GetRule(string ruleId)
+        public async Task<ActionResult<RuleReadDto>> GetRule(string ruleId)
         {
             try
             {
@@ -92,11 +92,11 @@ namespace BusinessHours.Api.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(BusinessHoursRuleReadDto), 200)]
+        [ProducesResponseType(typeof(RuleReadDto), 200)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
         [HttpPut("{ruleId}")]
-        public async Task<ActionResult<BusinessHoursRuleReadDto>> UpdateRule(string ruleId, BusinessHoursRuleUpdateDto payload)
+        public async Task<ActionResult<RuleReadDto>> UpdateRule(string ruleId, RuleUpdateDto payload)
         {
             try
             {

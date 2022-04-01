@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BusinessHours.Domain.Dtos.Rules;
 using BusinessHours.Domain.Errors;
 
 namespace BusinessHours.Domain.Dtos.Validators
@@ -10,7 +11,7 @@ namespace BusinessHours.Domain.Dtos.Validators
     {
         static readonly Regex BUSINESS_HOURS_RULE_TIME_PATTERN = new Regex(@"^(?<hours>([01]\d)|(2[0-3])):(?<minutes>[0-5]\d)$");
 
-        public static void Validate(this BusinessHoursRuleCreateDto obj)
+        public static void Validate(this RuleCreateDto obj)
         {
             if (string.IsNullOrEmpty(obj.Name)) throw new MissingBodyParamException("name");
             if (string.IsNullOrEmpty(obj.Timezone)) throw new MissingBodyParamException("timezone");
@@ -39,7 +40,7 @@ namespace BusinessHours.Domain.Dtos.Validators
             }
         }
 
-        public static void Validate(this BusinessHoursRuleUpdateDto obj)
+        public static void Validate(this RuleUpdateDto obj)
         {
             if (obj.Name != null && string.IsNullOrEmpty(obj.Name)) throw new InvalidBodyParamException("name");
             if (obj.Timezone != null && string.IsNullOrEmpty(obj.Timezone)) throw new InvalidBodyParamException("timezone");

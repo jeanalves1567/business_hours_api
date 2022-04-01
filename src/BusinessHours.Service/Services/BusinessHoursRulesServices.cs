@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BusinessHours.Domain.Dtos;
+using BusinessHours.Domain.Dtos.Rules;
 using BusinessHours.Domain.Dtos.Validators;
 using BusinessHours.Domain.Entities;
 using BusinessHours.Domain.Errors;
@@ -23,13 +23,13 @@ namespace BusinessHours.Service.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<BusinessHoursRuleListDto>> ListBusinessHoursRules()
+        public async Task<IEnumerable<RuleListDto>> ListBusinessHoursRules()
         {
             var rules = await _rulesRepository.SelectAsync();
-            return _mapper.Map<IEnumerable<BusinessHoursRuleListDto>>(rules);
+            return _mapper.Map<IEnumerable<RuleListDto>>(rules);
         }
 
-        public async Task<BusinessHoursRuleReadDto> GetBusinessHoursRule(string ruleId)
+        public async Task<RuleReadDto> GetBusinessHoursRule(string ruleId)
         {
             if (string.IsNullOrEmpty(ruleId))
                 throw new ArgumentNullException(nameof(ruleId));
@@ -38,10 +38,10 @@ namespace BusinessHours.Service.Services
             if (rule == null)
                 throw new KeyNotFoundException();
 
-            return _mapper.Map<BusinessHoursRuleReadDto>(rule);
+            return _mapper.Map<RuleReadDto>(rule);
         }
 
-        public async Task<BusinessHoursRuleReadDto> CreateBusinessHoursRule(BusinessHoursRuleCreateDto payload)
+        public async Task<RuleReadDto> CreateBusinessHoursRule(RuleCreateDto payload)
         {
             payload.Validate();
 
@@ -70,10 +70,10 @@ namespace BusinessHours.Service.Services
             rule.WorkHours = workHours;
 
             var result = await _rulesRepository.InsertAsync(rule);
-            return _mapper.Map<BusinessHoursRuleReadDto>(result);
+            return _mapper.Map<RuleReadDto>(result);
         }
 
-        public async Task<BusinessHoursRuleReadDto> UpdateBusinessHoursRule(string ruleId, BusinessHoursRuleUpdateDto payload)
+        public async Task<RuleReadDto> UpdateBusinessHoursRule(string ruleId, RuleUpdateDto payload)
         {
             payload.Validate();
             var rule = await _rulesRepository.GetRule(ruleId);
@@ -108,7 +108,7 @@ namespace BusinessHours.Service.Services
             }
 
             var result = await _rulesRepository.UpdateAsync(rule);
-            return _mapper.Map<BusinessHoursRuleReadDto>(result);
+            return _mapper.Map<RuleReadDto>(result);
         }
 
         public async Task DeleteBusinessHoursRule(string ruleId)

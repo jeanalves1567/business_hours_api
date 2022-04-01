@@ -1,9 +1,8 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BusinessHours.Domain.Dtos
+namespace BusinessHours.Domain.Dtos.Rules
 {
-    public class WorkHoursUpdateDto
+    public class WorkHoursCreateDto
     {
         [Required]
         public string Day { get; set; }

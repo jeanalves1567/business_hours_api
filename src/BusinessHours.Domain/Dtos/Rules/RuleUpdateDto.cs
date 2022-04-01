@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace BusinessHours.Domain.Dtos
+namespace BusinessHours.Domain.Dtos.Rules
 {
-    public class BusinessHoursRuleUpdateDto
+    public class RuleUpdateDto
     {
         public string Name { get; set; }
         public string Timezone { get; set; }

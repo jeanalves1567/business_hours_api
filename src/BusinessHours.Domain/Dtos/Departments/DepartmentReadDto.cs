@@ -1,4 +1,5 @@
 using System;
+using BusinessHours.Domain.Dtos.Rules;
 
 namespace BusinessHours.Domain.Dtos.Departments
 {
@@ -11,6 +12,6 @@ namespace BusinessHours.Domain.Dtos.Departments
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string RuleId { get; set; }
-        public BusinessHoursRuleListDto Rule { get; set; }
+        public RuleListDto Rule { get; set; }
     }
 }

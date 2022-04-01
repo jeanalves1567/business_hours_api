@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BusinessHours.Domain.Dtos
+namespace BusinessHours.Domain.Dtos.Rules
 {
-    public class BusinessHoursRuleCreateDto
+    public class RuleCreateDto
     {
         [Required]
         public string Name { get; set; }
