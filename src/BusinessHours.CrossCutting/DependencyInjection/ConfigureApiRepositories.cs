@@ -13,6 +13,7 @@ namespace BusinessHours.CrossCutting.DependencyInjection
         public static void RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<IRulesRepository, RulesRepository>();
+            services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
             services.AddDbContext<AppDbContext>(options =>
             {
                 string DB_CONNECTION_STRING = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
