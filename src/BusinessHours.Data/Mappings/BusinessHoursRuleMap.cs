@@ -15,6 +15,7 @@ namespace BusinessHours.Data.Mappings
             builder.Property(r => r.CreatedAt);
             builder.Property(r => r.UpdatedAt);
             builder.HasMany(r => r.WorkHours).WithOne(w => w.Rule).HasForeignKey(w => w.RuleId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(r => r.Departments).WithOne(d => d.Rule).HasForeignKey(d => d.RuleId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

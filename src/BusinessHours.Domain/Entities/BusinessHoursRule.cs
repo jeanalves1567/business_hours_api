@@ -7,5 +7,6 @@ namespace BusinessHours.Domain.Entities
         public string Name { get; set; }
         public string Timezone { get; set; }
         public IEnumerable<WorkHours> WorkHours { get; set; }
+        public IEnumerable<Department> Departments { get; set; }
     }
 }

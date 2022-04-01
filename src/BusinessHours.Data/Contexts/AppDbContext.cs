@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using BusinessHours.Data.Mappings;
 using BusinessHours.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +8,7 @@ namespace BusinessHours.Data.Contexts
     {
         public DbSet<BusinessHoursRule> Rules { get; set; }
         public DbSet<WorkHours> WorkHours { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -18,6 +17,7 @@ namespace BusinessHours.Data.Contexts
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<BusinessHoursRule>(new BusinessHoursRuleMap().Configure);
             modelBuilder.Entity<WorkHours>(new WorkHoursMap().Configure);
+            modelBuilder.Entity<Department>(new DepartmentMap().Configure);
         }
     }
 }
