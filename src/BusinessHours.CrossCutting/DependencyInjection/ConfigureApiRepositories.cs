@@ -15,6 +15,7 @@ namespace BusinessHours.CrossCutting.DependencyInjection
             services.AddScoped<IRulesRepository, RulesRepository>();
             services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
             services.AddScoped<IHolidaysRepository, HolidaysRepository>();
+            services.AddScoped<IRulesHolidaysRepository, RulesHolidaysRepository>();
             services.AddDbContext<AppDbContext>(options =>
             {
                 string DB_CONNECTION_STRING = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
