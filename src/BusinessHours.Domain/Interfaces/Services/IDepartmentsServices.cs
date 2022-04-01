@@ -8,6 +8,7 @@ namespace BusinessHours.Domain.Interfaces.Services
     {
         Task<IEnumerable<DepartmentListDto>> ListDepartments();
         Task<DepartmentReadDto> GetDepartment(string departmentId);
+        Task<DepartmentReadDto> GetDepartmentByExternalId(string externalId);
         Task<DepartmentReadDto> CreateDepartment(DepartmentCreateDto payload);
         Task<DepartmentReadDto> UpdateDepartment(string departmentId, DepartmentUpdateDto payload);
         Task DeleteDepartment(string departmentId);

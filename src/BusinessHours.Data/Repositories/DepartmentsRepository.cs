@@ -24,5 +24,15 @@ namespace BusinessHours.Data.Repositories
                 .ThenInclude(rh => rh.Holiday)
                 .FirstOrDefaultAsync(d => d.Id == departmentId);
         }
+
+        public async Task<Department> GetDepartmentByExternalId(string externalId)
+        {
+            return await Context.Departments.AsNoTracking()
+                .Include(d => d.Rule)
+                .Include(d => d.Rule.WorkHours)
+                .Include(d => d.Rule.Holidays)
+                .ThenInclude(rh => rh.Holiday)
+                .FirstOrDefaultAsync(d => d.ExternalId == externalId);
+        }
     }
 }

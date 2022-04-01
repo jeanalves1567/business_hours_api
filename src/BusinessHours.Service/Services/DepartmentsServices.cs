@@ -40,6 +40,14 @@ namespace BusinessHours.Service.Services
             return _mapper.Map<DepartmentReadDto>(department);
         }
 
+        public async Task<DepartmentReadDto> GetDepartmentByExternalId(string externalId)
+        {
+            if (string.IsNullOrEmpty(externalId)) throw new ArgumentNullException("externalId");
+            var department = await _departmentsRepository.GetDepartmentByExternalId(externalId);
+            if (department == null) throw new KeyNotFoundException();
+            return _mapper.Map<DepartmentReadDto>(department);
+        }
+
         public async Task<DepartmentReadDto> CreateDepartment(DepartmentCreateDto payload)
         {
             payload.Validate();

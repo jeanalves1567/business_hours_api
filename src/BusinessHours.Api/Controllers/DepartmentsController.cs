@@ -86,6 +86,32 @@ namespace BusinessHours.Api.Controllers
         }
 
         [ProducesResponseType(typeof(DepartmentReadDto), 200)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
+        [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
+        [HttpGet("external/{externalId}")]
+        public async Task<ActionResult<DepartmentReadDto>> GetDepartmentByExternalId(string externalId)
+        {
+            try
+            {
+                var result = await _services.GetDepartmentByExternalId(externalId);
+                return Ok(result);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new DefaultErrorResponse(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new DefaultErrorResponse(ex.Message));
+            }
+        }
+
+        [ProducesResponseType(typeof(DepartmentReadDto), 200)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 400)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 404)]
         [ProducesResponseType(typeof(DefaultErrorResponse), 500)]
