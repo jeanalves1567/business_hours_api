@@ -12,7 +12,7 @@ namespace BusinessHours.Data.Repositories
 
         public async Task<BusinessHoursRule> GetRule(string id)
         {
-            return await Context.Rules.AsNoTracking().Include(r => r.WorkHours).FirstOrDefaultAsync(r => r.Id == id);
+            return await Context.Rules.AsNoTracking().Include(r => r.WorkHours).Include(r => r.Departments).FirstOrDefaultAsync(r => r.Id == id);
         }
     }
 }

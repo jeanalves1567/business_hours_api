@@ -15,11 +15,13 @@ namespace BusinessHours.Service.Services
     public class BusinessHoursRulesServices : IBusinessHoursRulesServices
     {
         private readonly IRulesRepository _rulesRepository;
+        private readonly IDepartmentsRepository _departmentsRepository;
         private readonly IMapper _mapper;
 
-        public BusinessHoursRulesServices(IRulesRepository rulesRepository, IMapper mapper)
+        public BusinessHoursRulesServices(IRulesRepository rulesRepository, IDepartmentsRepository departmentsRepository, IMapper mapper)
         {
             _rulesRepository = rulesRepository;
+            _departmentsRepository = departmentsRepository;
             _mapper = mapper;
         }
 
@@ -113,15 +115,21 @@ namespace BusinessHours.Service.Services
 
         public async Task DeleteBusinessHoursRule(string ruleId)
         {
-            if (string.IsNullOrEmpty(ruleId))
-                throw new ArgumentNullException(nameof(ruleId));
+            if (string.IsNullOrEmpty(ruleId)) throw new ArgumentNullException(nameof(ruleId));
+            if (ruleId == "default") throw new BadRequestException("The default rule can not be removed");
+            var rule = await _rulesRepository.GetRule(ruleId);
+            if (rule == null) throw new KeyNotFoundException();
 
-            if (ruleId == "default")
-                throw new BadRequestException("The default rule can not be removed");
-
-            var ruleExists = await _rulesRepository.ExistsAsync(ruleId);
-            if (!ruleExists)
-                throw new KeyNotFoundException();
+            if (rule.Departments.Count() > 0)
+            {
+                var defaultRule = await _rulesRepository.SelectAsync("default");
+                if (defaultRule == null) throw new Exception("Failed to retrieve default rule");
+                foreach (var department in rule.Departments)
+                {
+                    department.Rule = defaultRule;
+                    await _departmentsRepository.UpdateAsync(department);
+                }
+            }
 
             await _rulesRepository.DeleteAsync(ruleId);
         }
