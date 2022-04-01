@@ -8,4 +8,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessHours.CrossCutting\BusinessHours.CrossCutting.csproj" />
+    <ProjectReference Include="..\BusinessHours.Domain\BusinessHours.Domain.csproj" />
+    <ProjectReference Include="..\BusinessHours.Service\BusinessHours.Service.csproj" />
+  </ItemGroup>
+
 </Project>

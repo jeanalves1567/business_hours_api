@@ -17,5 +17,14 @@ namespace BusinessHours.Domain.Entities
 
         public DateTime? UpdatedAt { get; set; }
 
+        public BaseEntity()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        public BaseEntity(Guid id)
+        {
+            Id = id;
+        }
     }
 }

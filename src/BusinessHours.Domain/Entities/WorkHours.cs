@@ -6,12 +6,10 @@ namespace BusinessHours.Domain.Entities
     {
         public Guid RuleId { get; set; }
 
-        public string Day { get; set; }
+        public DayOfWeek Day { get; set; }
         public bool Open { get; set; }
         public string Start { get; set; }
-        public string StartUtc { get; set; }
         public string Finish { get; set; }
-        public string FinishUtc { get; set; }
 
         public BusinessHoursRule Rule { get; set; }
     }

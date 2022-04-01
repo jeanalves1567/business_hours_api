@@ -1,4 +1,6 @@
-using BusinessHours.Api.Config;
+using BusinessHours.CrossCutting.DependencyInjection;
+using BusinessHours.Data.Contexts;
+using BusinessHours.Data.Seeds;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,8 +25,10 @@ namespace BusinessHours.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ResolveDependecies();
-            services.AddControllers();
+            services.RegisterApiServices();
+            services.RegisterRepositories();
+            services.RegisterMappingProfiles();
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.IgnoreNullValues = true);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BusinessHours.Api", Version = "v1" });
@@ -48,6 +52,12 @@ namespace BusinessHours.Api
             {
                 endpoints.MapControllers();
             });
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                // PrepDb.SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), Configuration, env.IsProduction());
+                PrepDb.SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>(), Configuration, true);
+            }
         }
     }
 }

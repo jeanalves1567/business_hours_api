@@ -7,7 +7,7 @@ namespace BusinessHours.Data.Contexts
     {
         public AppDbContext CreateDbContext(string[] args)
         {
-            var connectionString = "Server=acme.com,1433;Initial Catalog=business_hours_api;User ID=sa;Password=pa55w0rd!;";
+            var connectionString = "Server=acme.com,1433;Initial Catalog=BusinessHoursApi;User ID=sa;Password=pa55w0rd!;";
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
             return new AppDbContext(optionsBuilder.Options);

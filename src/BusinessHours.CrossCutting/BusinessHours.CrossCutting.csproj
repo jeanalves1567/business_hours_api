@@ -4,4 +4,15 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessHours.Domain\BusinessHours.Domain.csproj" />
+    <ProjectReference Include="..\BusinessHours.Service\BusinessHours.Service.csproj" />
+    <ProjectReference Include="..\BusinessHours.Data\BusinessHours.Data.csproj" />
+  </ItemGroup>
+
 </Project>
