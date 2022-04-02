@@ -3,7 +3,6 @@ using System;
 using BusinessHours.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BusinessHours.Data.Migrations
@@ -15,154 +14,182 @@ namespace BusinessHours.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.15")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.15");
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.BusinessHoursRule", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("varchar(60)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Timezone")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("varchar(60)")
+                        .HasColumnName("timezone");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rules");
+                    b.ToTable("rules");
                 });
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.Department", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("id");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
 
                     b.Property<string>("ExternalId")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("external_id");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("varchar(60)")
+                        .HasColumnName("name");
 
                     b.Property<string>("RuleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("rule_id");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)")
+                        .HasColumnName("type");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ExternalId")
-                        .IsUnique()
-                        .HasFilter("[ExternalId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("RuleId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("departments");
                 });
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.Holiday", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("id");
 
                     b.Property<bool>("AllDay")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(true)
+                        .HasColumnName("all_day");
 
                     b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
 
                     b.Property<int>("Day")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("day");
 
                     b.Property<string>("Finish")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext")
+                        .HasColumnName("finish");
 
                     b.Property<int>("Month")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("month");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Start")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext")
+                        .HasColumnName("start");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
 
                     b.Property<int?>("Year")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("year");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Holidays");
+                    b.ToTable("holidays");
                 });
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.RuleHoliday", b =>
                 {
                     b.Property<string>("RuleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("rule_id");
 
                     b.Property<string>("HolidayId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("holiday_id");
 
                     b.HasKey("RuleId", "HolidayId");
 
                     b.HasIndex("HolidayId");
 
-                    b.ToTable("RulesHolidays");
+                    b.ToTable("rules_holidays");
                 });
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.WorkHours", b =>
                 {
                     b.Property<string>("RuleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("rule_id");
 
                     b.Property<string>("Day")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("day");
 
                     b.Property<string>("Finish")
                         .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("varchar(5)")
+                        .HasColumnName("finish");
 
                     b.Property<bool>("Open")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
+                        .HasColumnName("open");
 
                     b.Property<string>("Start")
                         .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("varchar(5)")
+                        .HasColumnName("start");
 
                     b.HasKey("RuleId", "Day");
 
-                    b.ToTable("WorkHours");
+                    b.ToTable("work_hours");
                 });
 
             modelBuilder.Entity("BusinessHours.Domain.Entities.Department", b =>
