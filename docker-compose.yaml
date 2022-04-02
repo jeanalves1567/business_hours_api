@@ -1,5 +1,32 @@
 version: '3'
 services:
+  api:
+    image: business-hours-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: business-hours-api
+    ports:
+      - 8080:80
+    environment:
+      DB_CONNECTION_STRING: "server=db;port=3306;database=business_hours_api;user=root;Password=pa55w0rd!;Persist Security Info=False;Connect Timeout=300"
+      DB_TYPE: "mysql"
+      DbRunMigrations: "true"
+      TenantId: "1402e152-8334-4b47-be23-7776508cb5bc"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7.37
+    container_name: businesshoursapimysqldb
+    environment:
+      MYSQL_ROOT_PASSWORD: "pa55w0rd!"
+      MYSQL_DATABASE: "business_hours_api"
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql:/var/lib/mysql
+
   # db:
   #   image: mcr.microsoft.com/mssql/server:2017-latest
   #   container_name: businesshoursapidb
@@ -11,14 +38,3 @@ services:
   #     - 1433:1433
   #   volumes:
   #     - ./data:/var/opt/mssql
-
-  mysql:
-    image: mysql:5.7.37
-    container_name: businesshoursapimysqldb
-    environment:
-      MYSQL_ROOT_PASSWORD: "pa55w0rd!"
-      MYSQL_DATABASE: "business_hours_api"
-    ports:
-      - '3306:3306'
-    volumes:
-      - ./mysql:/var/lib/mysql
