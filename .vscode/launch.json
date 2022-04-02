@@ -15,7 +15,9 @@
             //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             // },
             "env": {
-                "DB_CONNECTION_STRING": "Server=acme.com,1433;Initial Catalog=BusinessHoursApi;User ID=sa;Password=pa55w0rd!;",
+                // "DB_CONNECTION_STRING": "Server=acme.com,1433;Initial Catalog=BusinessHoursApi;User ID=sa;Password=pa55w0rd!;",
+                "DB_CONNECTION_STRING": "server=acme.com;port=3306;database=business_hours_api;user=root;Password=pa55w0rd!;Persist Security Info=False;Connect Timeout=300",
+                "DB_TYPE": "mysql",
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {

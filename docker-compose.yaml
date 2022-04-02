@@ -1,13 +1,24 @@
 version: '3'
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    container_name: businesshoursapidb
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2017-latest
+  #   container_name: businesshoursapidb
+  #   environment:
+  #     MSSQL_PID: "Express"
+  #     ACCEPT_EULA: "Y"
+  #     SA_PASSWORD: "pa55w0rd!"
+  #   ports:
+  #     - 1433:1433
+  #   volumes:
+  #     - ./data:/var/opt/mssql
+
+  mysql:
+    image: mysql:5.7.37
+    container_name: businesshoursapimysqldb
     environment:
-      MSSQL_PID: "Express"
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "pa55w0rd!"
+      MYSQL_ROOT_PASSWORD: "pa55w0rd!"
+      MYSQL_DATABASE: "business_hours_api"
     ports:
-      - 1433:1433
+      - '3306:3306'
     volumes:
-      - ./data:/var/opt/mssql
+      - ./mysql:/var/lib/mysql
